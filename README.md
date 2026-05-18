@@ -1,4 +1,4 @@
-# Deployment Guide for the it_department Database
+# Deployment Guide for the nv-vntu Database
 
 This guide describes the process of deploying the server side of the database (MySQL) and configuring the client interface (MS Access) to ensure the system works correctly. Please follow the steps strictly in the specified order.
 
