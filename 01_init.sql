@@ -232,3 +232,42 @@ CREATE TABLE student_cards_audit (
     app_user VARCHAR(100) NOT NULL,     -- Логін оператора (наприклад, emp_olena@%)
     changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE import_staging_students (
+    import_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    -- Дані з Excel 
+    contract_number VARCHAR(255),
+    contract_date VARCHAR(255),
+    student_name VARCHAR(255),
+    student_birthday VARCHAR(255),
+    student_pass_series VARCHAR(255),
+    student_pass_num VARCHAR(255),
+    student_pass_issued VARCHAR(255),
+    student_address VARCHAR(255),
+    student_inn VARCHAR(255),
+    student_phone VARCHAR(255),
+    student_email VARCHAR(255),
+    
+    entity_name VARCHAR(255),
+    entity_pass_series VARCHAR(255),
+    entity_pass_num VARCHAR(255),
+    entity_pass_issued VARCHAR(255),
+    entity_address VARCHAR(255),
+    entity_inn VARCHAR(255),
+    entity_phone VARCHAR(255),
+    entity_email VARCHAR(255),
+    
+    study_form VARCHAR(255),
+    study_level VARCHAR(255),
+    specialty VARCHAR(255),
+    study_program VARCHAR(255),
+    funding_form VARCHAR(255),
+    faculty VARCHAR(255),
+    
+    -- Системні поля для контролю
+    is_processed BOOLEAN DEFAULT FALSE,
+    has_error BOOLEAN DEFAULT FALSE,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

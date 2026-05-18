@@ -1,0 +1,3 @@
+DO NOT FORGET TO EDIT
+qdf.Connect = "ODBC;DSN=Secured University Data Source;" 
+IN BTN_EXECUTEIMPORT
