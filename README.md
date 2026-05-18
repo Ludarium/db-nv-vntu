@@ -70,9 +70,13 @@ In the "Select Data Source" window, go to the **Machine Data Source** tab and se
 To prevent storing the database password in plain text within the backup script, we use the mysql_config_editor utility to create an encrypted login profile.
 Open the Windows Command Prompt (cmd) as an Administrator.
 Execute the following command to create a profile named backup_admin:
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" set --login-path=backup_admin --host=localhost --user=root --password
+```
 Verify the profile was created successfully:
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" print --all
+```
 
 **16. The Backup Script**
 Run the 'mysql_backup.bat' script to generate .sql dump. Note: the script automatically generates a timestamped .sql dump.
@@ -88,16 +92,22 @@ To run the backup automatically (e.g., every night at 23:00):
 **18. Testing the Recovery (Sandbox Test)**
 1. Create a Sandbox Database
 Open your MySQL client (e.g., MySQL Workbench) and execute:
+```sql
 CREATE DATABASE test_recovery_db;
+```
 
 2. Import the Backup
 Open the Windows Command Prompt and restore the dump into the new sandbox database. It is recommended to use the root user for testing to bypass any database-specific permission restrictions.
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p test_recovery_db < "C:\MySQL_Backups\your_backup_file.sql"
+```
 3. Verify Data Integrity
 Refresh your database schemas in MySQL Workbench. Check test_recovery_db to ensure all tables, records, and relationships have been restored correctly.
 4. Clean Up
 Once verified, safely delete the sandbox database:
+```sql
 DROP DATABASE test_recovery_db;
+```
 
 ## Part 5. Troubleshooting
 

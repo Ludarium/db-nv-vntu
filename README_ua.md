@@ -72,10 +72,13 @@
 
 Відкрийте Командний рядок Windows (`cmd`) від імені Адміністратора.
 Виконайте наступну команду, щоб створити профіль з іменем `backup_admin`:
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" set --login-path=backup_admin --host=localhost --user=root --password
-
+```
 Перевірте, чи успішно створено профіль:
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" print --all
+```
 
 **16. Скрипт резервного копіювання**
 
@@ -99,19 +102,23 @@
 
 1. Створення тестової бази даних (пісочниці)
 Відкрийте ваш MySQL-клієнт (наприклад, MySQL Workbench) і виконайте:
+```sql
 CREATE DATABASE test_recovery_db;
+```
 
 2. Імпорт резервної копії
 Відкрийте Командний рядок Windows та відновіть дамп у нову тестову базу даних. Для тестування рекомендується використовувати користувача root, щоб обійти будь-які обмеження прав доступу, специфічні для бази даних.
+```bat
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p test_recovery_db < "C:\MySQL_Backups\your_backup_file.sql"
-
+```
 3. Перевірка цілісності даних
 Оновіть схеми баз даних у MySQL Workbench. Перевірте test_recovery_db, щоб переконатися, що всі таблиці, записи та зв'язки були відновлені коректно.
 
 4. Очищення
 Після успішної перевірки безпечно видаліть тестову базу даних:
+```sql
 DROP DATABASE test_recovery_db;
-
+```
 ## Частина 5. Вирішення проблем (Troubleshooting)
 
 **19. Помилка втрати зв'язку з ODBC**
