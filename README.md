@@ -65,9 +65,43 @@ In the "Select Data Source" window, go to the **Machine Data Source** tab and se
 *   Click OK.
 *   *Important: If Access asks you to specify a "Unique Record Identifier" for certain Views, be sure to select the `id` field so that the data remains updatable.*
 
-## Part 4. Troubleshooting
+## Part 4. MySQLDump utility for backup operation
+**15. Secure Credential Storage**
+To prevent storing the database password in plain text within the backup script, we use the mysql_config_editor utility to create an encrypted login profile.
+Open the Windows Command Prompt (cmd) as an Administrator.
+Execute the following command to create a profile named backup_admin:
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" set --login-path=backup_admin --host=localhost --user=root --password
+Verify the profile was created successfully:
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql_config_editor.exe" print --all
 
-**15. ODBC Connection Loss Error**
+**16. The Backup Script**
+Run the 'mysql_backup.bat' script to generate .sql dump. Note: the script automatically generates a timestamped .sql dump.
+
+**17, Automate with Task Scheduler**
+To run the backup automatically (e.g., every night at 23:00):
+1. Open Windows Task Scheduler and click Create Task.
+2. General Tab: Name the task "MySQL Daily Backup". Check the box Run with highest privileges and select Run whether user is logged on or not.
+3. Triggers Tab: Add a new trigger -> Daily -> Set time (e.g., 23:00).
+4. Actions Tab: Add a new action -> Start a program -> Browse and select your mysql_backup.bat file.
+5. Save the task
+
+**18. Testing the Recovery (Sandbox Test)**
+1. Create a Sandbox Database
+Open your MySQL client (e.g., MySQL Workbench) and execute:
+CREATE DATABASE test_recovery_db;
+
+2. Import the Backup
+Open the Windows Command Prompt and restore the dump into the new sandbox database. It is recommended to use the root user for testing to bypass any database-specific permission restrictions.
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p test_recovery_db < "C:\MySQL_Backups\your_backup_file.sql"
+3. Verify Data Integrity
+Refresh your database schemas in MySQL Workbench. Check test_recovery_db to ensure all tables, records, and relationships have been restored correctly.
+4. Clean Up
+Once verified, safely delete the sandbox database:
+DROP DATABASE test_recovery_db;
+
+## Part 5. Troubleshooting
+
+**19. ODBC Connection Loss Error**
 If you get an ODBC connection error when opening forms or tables (especially if you moved the database to a new PC), you need to refresh the links:
 1. Go to: **External Data** -> **Linked Table Manager**.
 2. Check the boxes next to all tables with a globe icon.
